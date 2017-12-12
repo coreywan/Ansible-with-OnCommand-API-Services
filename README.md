@@ -41,3 +41,6 @@ The functionality of these modules is to act as an interface between Ansible and
 # Related Project
 
 Ansible with NetApp Service Level for service level based NetApp storage management. Look https://github.com/NetApp/Ansible-with-NetApp-Service-Level-Manager/
+
+# Support
+Please enter an issue if you would like to report a defect
