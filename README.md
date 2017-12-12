@@ -37,3 +37,7 @@ The functionality of these modules is to act as an interface between Ansible and
 11. Now download all the modules from ‘modules/OnCommand API Services’ inside "/root/modules"(download these modules to either Master Ansible server or the Slave Ansible servers)
 12. Install 'requests' python package pip install requests
 13. Make use of sample playbooks provided to get started
+
+# Related Project
+
+Ansible with NetApp Service Level for service level based NetApp storage management. Look https://github.com/NetApp/Ansible-with-NetApp-Service-Level-Manager/
