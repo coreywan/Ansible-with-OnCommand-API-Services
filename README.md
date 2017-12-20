@@ -7,7 +7,7 @@ These Ansible modules and sample playbooks are written as best effort and provid
 
 # Repository includes:
 1. Ansible OnCommand API Services Modules
-2.	Sample Playbooks
+2.	Sample Playbooks(Visit Sample Playbooks from https://github.com/NetApp/Ansible-with-NetApp-Service-Level-Manager)
 3.	README
  
 # Supported configurations:
