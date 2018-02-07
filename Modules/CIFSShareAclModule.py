@@ -31,8 +31,8 @@ def get():
 
     flag=0
 
-    if(parentCifssharekey!=None):
-        url_path+="cifs-shares/"+parentCifssharekey+"/"
+    if(parentCifsshare#[[key]]#!=None):
+        url_path+="cifs-shares/"+parentCifsshare#[[key]]#+"/"
         flag=1
     if(flag==0):
         return "Provide the parent object key"
@@ -88,8 +88,8 @@ def get():
 
 def post():
     url_path        = "/api/2.0/ontap/"
-    if(parentCifssharekey!=None):
-        url_path+="cifs-shares/"+parentCifssharekey+"/"
+    if(parentCifsshare#[[key]]#!=None):
+        url_path+="cifs-shares/"+parentCifsshare#[[key]]#+"/"
     else:
         return "Provide the parent object key"
     url_path+="cifs-share-acls"
@@ -111,13 +111,13 @@ def post():
         payload['nextTag']=nextTag
 
     response=http_request_for_post(url_path,**payload)
-    json_response=response.json()
+    json_response=response.headers
     return json_response
 
 def put():
     url_path        = "/api/2.0/ontap/"
-    if(parentCifssharekey!=None):
-        url_path+="cifs-shares/"+parentCifssharekey+"/"
+    if(parentCifsshare#[[key]]#!=None):
+        url_path+="cifs-shares/"+parentCifsshare#[[key]]#+"/"
     else:
         return "Provide the parent object key"
     url_path+="cifs-share-acls/"
@@ -140,15 +140,15 @@ def put():
     if key != None:
         url_path+=key
         response=http_request_for_put(url_path,**payload)
-        json_response=response.json()
+        json_response=response.headers
         return json_response
     else:
         return "Provide the object key"
 
 def delete():
     url_path        = "/api/2.0/ontap/"
-    if(parentCifssharekey!=None):
-        url_path+="cifs-shares/"+parentCifssharekey+"/"
+    if(parentCifsshare#[[key]]#!=None):
+        url_path+="cifs-shares/"+parentCifsshare#[[key]]#+"/"
     else:
         return "Provide the parent object key"
     url_path+="cifs-share-acls/"
@@ -156,7 +156,7 @@ def delete():
     if key != None:
         url_path+=key
         response=http_request_for_delete(url_path)
-        json_response=response.json()
+        json_response=response.headers
         return json_response
     else:
         return "Provide the object key for deletion"
@@ -190,7 +190,7 @@ def main():
                 "port" : {"required": True, "type": "str"},
                 "user" : {"required": True, "type": "str"},
                 "password" : {"required": True, "type": "str"},
-                "parentCifssharekey" : {"required": False, "type": "str"},
+                "parentCifsshare#[[key]]#" : {"required": False, "type": "str"},
                 "key" : {"required": False, "type": "str"},
                 "cifs_share_key" : {"required": False, "type": "str"},
                 "user_or_group" : {"required": False, "type": "str"},
@@ -208,8 +208,8 @@ def main():
         global api_user_name
         global api_user_password
 
-        global parentCifssharekey
-        parentCifssharekey   = module.params["parentCifssharekey"]
+        global parentCifsshare#[[key]]#
+        parentCifsshare#[[key]]#   = module.params["parentCifsshare#[[key]]#"]
         global lun_key
         global nfs_share_key
         global cifs_share_key
@@ -242,13 +242,13 @@ def main():
                 module.exit_json(changed=False,meta=result)
         elif module.params["action"] == "put":
                 result=put()
-                module.exit_json(changed=True,meta=result)
+                module.exit_json(changed=True,meta=result['Location'].split("/jobs/")[1])
         elif module.params["action"] == "post":
                 result=post()
-                module.exit_json(changed=True,meta=result)
+                module.exit_json(changed=True,meta=result['Location'].split("/jobs/")[1])
         elif module.params["action"] == "delete":
                 result=delete()
-                module.exit_json(changed=True,meta=result)
+                module.exit_json(changed=True,meta=result['Location'].split("/jobs/")[1])
 
 
 if __name__ == '__main__':

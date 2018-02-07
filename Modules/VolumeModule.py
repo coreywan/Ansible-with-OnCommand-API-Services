@@ -830,7 +830,7 @@ def post():
         payload['nextTag']=nextTag
 
     response=http_request_for_post(url_path,**payload)
-    json_response=response.json()
+    json_response=response.headers
     return json_response
 
 def put():
@@ -1037,7 +1037,7 @@ def put():
     if key != None:
         url_path+=key
         response=http_request_for_put(url_path,**payload)
-        json_response=response.json()
+        json_response=response.headers
         return json_response
     else:
         return "Provide the object key"
@@ -1049,7 +1049,7 @@ def delete():
     if key != None:
         url_path+=key
         response=http_request_for_delete(url_path)
-        json_response=response.json()
+        json_response=response.headers
         return json_response
     else:
         return "Provide the object key for deletion"
@@ -1405,13 +1405,13 @@ def main():
                 module.exit_json(changed=False,meta=result)
         elif module.params["action"] == "put":
                 result=put()
-                module.exit_json(changed=True,meta=result)
+                module.exit_json(changed=True,meta=result['Location'].split("/jobs/")[1])
         elif module.params["action"] == "post":
                 result=post()
-                module.exit_json(changed=True,meta=result)
+                module.exit_json(changed=True,meta=result['Location'].split("/jobs/")[1])
         elif module.params["action"] == "delete":
                 result=delete()
-                module.exit_json(changed=True,meta=result)
+                module.exit_json(changed=True,meta=result['Location'].split("/jobs/")[1])
 
 
 if __name__ == '__main__':
