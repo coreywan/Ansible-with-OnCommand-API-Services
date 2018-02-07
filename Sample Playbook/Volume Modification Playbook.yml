@@ -1,0 +1,22 @@
+- hosts: localhost
+  tasks:
+    - name: Get Volume 'test123'
+      VolumeModule: host=<<apis server-ip>> port=8443 user=<<admin>> password=<<password>> action=get name=test123
+      register : jsonResult
+
+    - name: print the Volume key
+      debug: msg="{{ jsonResult.meta.result.records[0].key}}"
+
+    - name: Get key and Edit Volume 'test123'
+      LunModule: host=<<apis server-ip>> port=8443 user=<<admin>> password=<<password>> action=put size=3004803008 key={{ jsonResult.meta.result.records[0].key}}
+      register : jsonResult
+
+    - name: print the job key
+      debug : msg="{{ jsonResult }}"
+
+    - name: loop for status
+      JobScheduleModule: host=<<apis server-ip>> port=8443 user=<<admin>> password=<<password>> action=get key={{ jsonResult }}
+      register : jsonResult
+      until:  (jsonResult.meta.result.records[0].status == "COMPLETED") or (jsonResult.meta.result.records[0].status == "FAILED")
+      retries: 5
+      delay: 10
